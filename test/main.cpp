@@ -2,7 +2,8 @@
 #include <random>
 #include <fphistogram/fphistogram.hpp>
 
-int main() {
+void test_random_vec() {
+	std::printf("# %s\n", __func__);
 	std::mt19937 mt(std::random_device{}());
 	std::uniform_real_distribution<double> dist(-1., 1.);
 
@@ -14,3 +15,24 @@ int main() {
 	mtk::fphistogram::print_histogram(fp_list, N);
 }
 
+void test_all_zero() {
+	std::printf("# %s\n", __func__);
+	constexpr std::size_t n = 1lu << 16;
+	double fp_list[n];
+	for (std::size_t i = 0; i < n; i++) {
+		fp_list[i] = 0.;
+	}
+	mtk::fphistogram::print_histogram(fp_list, n);
+}
+
+void test_size_zero() {
+	std::printf("# %s\n", __func__);
+	std::vector<double> vec;
+	mtk::fphistogram::print_histogram(vec);
+}
+
+int main() {
+	test_size_zero();
+	test_all_zero();
+	test_random_vec();
+}
