@@ -51,19 +51,21 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 	}
 
 	// Draw graph
-	for (unsigned i = 0; i < counter.size(); i++) {
-		const auto exp_with_bias = static_cast<int>(min_exp_value) - detail::get_bias<T>() + i;
-		const auto ratio = static_cast<double>(counter[i]) / size;
-		if (exp_with_bias < 0) {
-			std::printf("[%03d]", exp_with_bias);
-		} else {
-			std::printf("[ %03d]", exp_with_bias);
+	if (min_exp_value < UINT_MAX) {
+		for (unsigned i = 0; i < counter.size(); i++) {
+			const auto exp_with_bias = static_cast<int>(min_exp_value) - detail::get_bias<T>() + i;
+			const auto ratio = static_cast<double>(counter[i]) / size;
+			if (exp_with_bias < 0) {
+				std::printf("[%03d]", exp_with_bias);
+			} else {
+				std::printf("[ %03d]", exp_with_bias);
+			}
+			std::printf("(%10lu){%e}:", counter[i], ratio);
+			for (unsigned i = 0; i < static_cast<unsigned>(ratio * num_all_stars); i++) {
+				std::printf("*");
+			}
+			std::printf("\n");
 		}
-		std::printf("(%10lu){%e}:", counter[i], ratio);
-		for (unsigned i = 0; i < static_cast<unsigned>(ratio * num_all_stars); i++) {
-			std::printf("*");
-		}
-		std::printf("\n");
 	}
 	const auto ratio = static_cast<double>(num_zero) / size;
 	std::printf("[zero]");
