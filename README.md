@@ -22,6 +22,9 @@ int main() {
 
 	// std::vector<float> fp_list_vec;
 	// mtk::fphistogram::print_histogram(fp_list_vec);
+
+	// std::function<double(const std::int)> iter = [&fp_list](const std::size_t i) {return 3.0 * fp_list[i];};
+	// mtk::fphistogram::print_histogram(iter, N);
 }
 ```
 
