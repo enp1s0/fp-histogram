@@ -3,6 +3,7 @@
 #include <iostream>
 #include <climits>
 #include <vector>
+#include <functional>
 
 namespace mtk {
 namespace fphistogram {
@@ -22,7 +23,7 @@ template <>
 unsigned get_bias<float >() {return 0x7f;}
 } // namespace detail
 template <class T>
-void print_histogram(const T* const fp_list, const std::size_t size, const unsigned num_all_stars = 100) {
+void print_histogram(const std::function<T(const std::size_t)> iter, const std::size_t size, const unsigned num_all_stars = 100) {
 	if (size == 0) {
 		std::printf("Nothing to print: the size of input array is zero\n");
 		return;
@@ -31,7 +32,7 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 	unsigned min_exp_value = UINT_MAX;
 	unsigned max_exp_value = 0;
 	for (std::size_t i = 0; i < size; i++) {
-		const auto exp_v = detail::get_exp(fp_list[i]);
+		const auto exp_v = detail::get_exp(iter(i));
 		if (exp_v == 0) continue;
 		min_exp_value = std::min(min_exp_value, exp_v);
 		max_exp_value = std::max(max_exp_value, exp_v);
@@ -42,7 +43,7 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 
 	unsigned num_zero = 0u;
 	for (unsigned i = 0; i < size; i++) {
-		const auto exp_v = detail::get_exp(fp_list[i]);
+		const auto exp_v = detail::get_exp(iter(i));
 		if (exp_v == 0) {
 			num_zero++;
 			continue;
