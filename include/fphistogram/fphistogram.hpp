@@ -28,13 +28,13 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 		return;
 	}
 
-	unsigned min_exp_value = INT_MAX;
-	unsigned max_exp_value = INT_MIN;
+	unsigned min_exp_value = UINT_MAX;
+	unsigned max_exp_value = 0;
 	for (std::size_t i = 0; i < size; i++) {
 		const auto exp_v = detail::get_exp(fp_list[i]);
 		if (exp_v == 0) continue;
 		min_exp_value = std::min(min_exp_value, exp_v);
-		max_exp_value = std::max(min_exp_value, exp_v);
+		max_exp_value = std::max(max_exp_value, exp_v);
 	}
 	if (min_exp_value == INT_MAX) {
 		std::printf("All exponets are ZERO;\n");
@@ -59,11 +59,11 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 		const auto exp_with_bias = static_cast<int>(min_exp_value) - detail::get_bias<T>() + i;
 		const auto ratio = static_cast<double>(counter[i]) / size;
 		if (exp_with_bias < 0) {
-			std::printf("[ %02d ]", exp_with_bias);
+			std::printf("[%03d]", exp_with_bias);
 		} else {
-			std::printf("[  %02d ]", exp_with_bias);
+			std::printf("[ %03d]", exp_with_bias);
 		}
-		std::printf("{%e}:", ratio);
+		std::printf("(%10lu){%e}:", counter[i], ratio);
 		for (unsigned i = 0; i < static_cast<unsigned>(ratio * num_all_stars); i++) {
 			std::printf("*");
 		}
@@ -71,7 +71,7 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 	}
 	const auto ratio = static_cast<double>(num_zero) / size;
 	std::printf("[zero]");
-	std::printf("{%e}:", ratio);
+	std::printf("(%10lu){%e}:", num_zero, ratio);
 	for (unsigned i = 0; i < static_cast<unsigned>(ratio * num_all_stars); i++) {
 		std::printf("*");
 	}
