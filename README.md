@@ -19,6 +19,9 @@ int main() {
 		fp_list[i] = dist(mt);
 	}
 	mtk::fphistogram::print_histogram(fp_list, N);
+
+	// std::vector<float> fp_list_vec;
+	// mtk::fphistogram::print_histogram(fp_list_vec);
 }
 ```
 
