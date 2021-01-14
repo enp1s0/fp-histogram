@@ -1,11 +1,11 @@
 # FP Histogram
 
-This library draws an exponent histogram of floating point array.
+This library draws an exponent histogram of a given floating point array.
 
 ## Sample code
 ```cpp
 // sample.cpp
-// gcc -I/path/to/fp-histogram/include -std=c++11 sample.cpp
+// gcc -I/path/to/fphistogram/include -std=c++11 sample.cpp
 #include <random>
 #include <fphistogram/fphistogram.hpp>
 
