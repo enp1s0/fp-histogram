@@ -38,10 +38,10 @@ void print_histogram(const std::function<T(const std::size_t)> iter, const std::
 		max_exp_value = std::max(max_exp_value, exp_v);
 	}
 
-	std::vector<unsigned> counter(max_exp_value - min_exp_value + 1);
+	std::vector<std::size_t> counter(max_exp_value - min_exp_value + 1);
 	for (auto &v : counter) v = 0u;
 
-	unsigned num_zero = 0u;
+	std::size_t num_zero = 0u;
 	for (unsigned i = 0; i < size; i++) {
 		const auto exp_v = detail::get_exp(iter(i));
 		if (exp_v == 0) {
