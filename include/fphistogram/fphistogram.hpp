@@ -52,7 +52,8 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 
 	// Draw graph
 	if (min_exp_value < UINT_MAX) {
-		for (unsigned i = 0; i < counter.size(); i++) {
+		for (unsigned j = 0; j < counter.size(); j++) {
+			const unsigned i = counter.size() - j - 1;
 			const auto exp_with_bias = static_cast<int>(min_exp_value) - detail::get_bias<T>() + i;
 			const auto ratio = static_cast<double>(counter[i]) / size;
 			if (exp_with_bias < 0) {
@@ -66,6 +67,7 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 			}
 			std::printf("\n");
 		}
+		std::printf("-----\n");
 	}
 	const auto ratio = static_cast<double>(num_zero) / size;
 	std::printf("[zero]");
