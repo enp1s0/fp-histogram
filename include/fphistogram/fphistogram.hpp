@@ -24,7 +24,7 @@ unsigned get_bias<float >() {return 0x7f;}
 template <class T>
 void print_histogram(const T* const fp_list, const std::size_t size, const unsigned num_all_stars = 100) {
 	if (size == 0) {
-		std::printf("Nothing to print\n");
+		std::printf("Nothing to print: the size of input array is zero\n");
 		return;
 	}
 
@@ -35,10 +35,6 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 		if (exp_v == 0) continue;
 		min_exp_value = std::min(min_exp_value, exp_v);
 		max_exp_value = std::max(max_exp_value, exp_v);
-	}
-	if (min_exp_value == INT_MAX) {
-		std::printf("All exponets are ZERO;\n");
-		return;
 	}
 
 	std::vector<unsigned> counter(max_exp_value - min_exp_value + 1);
