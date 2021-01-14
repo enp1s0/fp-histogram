@@ -77,6 +77,11 @@ void print_histogram(const T* const fp_list, const std::size_t size, const unsig
 	}
 	std::printf("\n");
 }
+
+template <class T>
+void print_histogram(const std::vector<T>& fp_list_vec, const unsigned num_all_stars = 100) {
+	print_histogram(fp_list_vec.data(), fp_list_vec.size(), num_all_stars);
+}
 } // namespace fphistogram
 } // namespace mtk
 #endif
