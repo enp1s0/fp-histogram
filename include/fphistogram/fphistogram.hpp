@@ -19,7 +19,7 @@ int update_exponent(const int e);
 template <>
 int update_exponent<mode_log2 >(const int e_log2) {return e_log2;};
 template <>
-int update_exponent<mode_log10>(const int e_log2) {return e_log2 / 0.30102999566;};
+int update_exponent<mode_log10>(const int e_log2) {return 0.30102999566 * e_log2;};
 
 // exponent mask and shift
 template <class T>
