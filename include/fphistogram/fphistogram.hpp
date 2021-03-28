@@ -7,7 +7,21 @@
 
 namespace mtk {
 namespace fphistogram {
+// mode
+struct mode_log10;
+struct mode_log2;
+
 namespace detail {
+
+// log ratio
+template <class Mode>
+int update_exponent(const int e);
+template <>
+int update_exponent<mode_log2 >(const int e_log2) {return e_log2;};
+template <>
+int update_exponent<mode_log10>(const int e_log2) {return e_log2 / 0.30102999566;};
+
+// exponent mask and shift
 template <class T>
 unsigned get_exp(const T v);
 template <>
@@ -22,7 +36,7 @@ unsigned get_bias<double>() {return 0x3ff;}
 template <>
 unsigned get_bias<float >() {return 0x7f;}
 } // namespace detail
-template <class T>
+template <class T, class Mode = mode_log2>
 void print_histogram(const std::function<T(const std::size_t)> iter, const std::size_t size, const unsigned num_all_stars = 100) {
 	if (size == 0) {
 		std::printf("Nothing to print: the size of input array is zero\n");
@@ -32,7 +46,7 @@ void print_histogram(const std::function<T(const std::size_t)> iter, const std::
 	unsigned min_exp_value = UINT_MAX;
 	unsigned max_exp_value = 0;
 	for (std::size_t i = 0; i < size; i++) {
-		const auto exp_v = detail::get_exp(iter(i));
+		const unsigned exp_v = detail::update_exponent<Mode>(detail::get_exp(iter(i)));
 		if (exp_v == 0) continue;
 		min_exp_value = std::min(min_exp_value, exp_v);
 		max_exp_value = std::max(max_exp_value, exp_v);
@@ -43,7 +57,7 @@ void print_histogram(const std::function<T(const std::size_t)> iter, const std::
 
 	std::size_t num_zero = 0u;
 	for (unsigned i = 0; i < size; i++) {
-		const auto exp_v = detail::get_exp(iter(i));
+		const auto exp_v = detail::update_exponent<Mode>(detail::get_exp(iter(i)));
 		if (exp_v == 0) {
 			num_zero++;
 			continue;
@@ -56,7 +70,7 @@ void print_histogram(const std::function<T(const std::size_t)> iter, const std::
 		std::printf("[  exp ](   count  ){    ratio   }\n");
 		for (unsigned j = 0; j < counter.size(); j++) {
 			const unsigned i = counter.size() - j - 1;
-			const auto exp_with_bias = static_cast<int>(min_exp_value) - detail::get_bias<T>() + i;
+			const auto exp_with_bias = static_cast<int>(min_exp_value) - detail::update_exponent<Mode>(detail::get_bias<T>()) + i;
 			const auto ratio = static_cast<double>(counter[i]) / size;
 			if (exp_with_bias < 0) {
 				std::printf("[%5d]", exp_with_bias);
@@ -80,13 +94,13 @@ void print_histogram(const std::function<T(const std::size_t)> iter, const std::
 	std::printf("\n");
 }
 
-template <class T>
+template <class T, class Mode = mode_log2>
 void print_histogram(const T* const fp_list, const std::size_t size, const unsigned num_all_stars = 100) {
 	std::function<double(const std::size_t)> iter = [&fp_list](const std::size_t i) {return fp_list[i];};
 	print_histogram(iter, size, num_all_stars);
 }
 
-template <class T>
+template <class T, class Mode = mode_log2>
 void print_histogram(const std::vector<T>& fp_list_vec, const unsigned num_all_stars = 100) {
 	print_histogram(fp_list_vec.data(), fp_list_vec.size(), num_all_stars);
 }
