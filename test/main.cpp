@@ -60,6 +60,22 @@ void test_size_zero() {
 	mtk::fphistogram::print_histogram<double, Mode>(vec);
 }
 
+template <class Mode>
+void test_half_half() {
+	std::printf("# %s\n", __func__);
+	std::printf("Mode : %s\n", get_mode_string<Mode>());
+	constexpr std::size_t n = 1lu << 16;
+	double fp_list[n];
+	std::size_t i = 0;
+	for (; i < n / 2; i++) {
+		fp_list[i] = 10;
+	}
+	for (; i < n; i++) {
+		fp_list[i] = 5.;
+	}
+	mtk::fphistogram::print_histogram<double, Mode>(fp_list, n);
+}
+
 int main() {
 	test_size_zero<mtk::fphistogram::mode_log10>();
 	test_size_zero<mtk::fphistogram::mode_log2 >();
@@ -69,4 +85,6 @@ int main() {
 	test_random_vec<mtk::fphistogram::mode_log2 >();
 	test_random_diff_vec<mtk::fphistogram::mode_log10>();
 	test_random_diff_vec<mtk::fphistogram::mode_log2 >();
+	test_half_half<mtk::fphistogram::mode_log10>();
+	test_half_half<mtk::fphistogram::mode_log2 >();
 }
