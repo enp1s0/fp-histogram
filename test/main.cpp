@@ -71,7 +71,7 @@ void test_half_half() {
 		fp_list[i] = 10;
 	}
 	for (; i < n; i++) {
-		fp_list[i] = 5.;
+		fp_list[i] = 7.;
 	}
 	mtk::fphistogram::print_histogram<double, Mode>(fp_list, n);
 }
