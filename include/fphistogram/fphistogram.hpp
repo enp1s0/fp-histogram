@@ -78,11 +78,7 @@ void print_histogram(const std::function<T(const std::size_t)> iter, const std::
 			const int i = counter.size() - j - 1;
 			const auto exp_with_bias = min_exp_value + i;
 			const auto ratio = static_cast<double>(counter[i]) / size;
-			if (exp_with_bias < 0) {
-				std::printf("[%5d]", exp_with_bias);
-			} else {
-				std::printf("[ %5d]", exp_with_bias);
-			}
+			std::printf("[%+5d]", exp_with_bias);
 			std::printf("(%10lu){%e}:", counter[i], ratio);
 			for (unsigned i = 0; i < static_cast<unsigned>(ratio * num_all_stars); i++) {
 				std::printf("*");
@@ -174,11 +170,7 @@ void print_histogram_pm(const std::function<T(const std::size_t)> iter, const st
 			}
 			std::printf("(%10lu){%e}:", counter_m[i], ratio_m);
 			// plus
-			if (exp_with_bias <= 0) {
-				std::printf("[%5d]", exp_with_bias);
-			} else {
-				std::printf("[ %5d]", exp_with_bias);
-			}
+			std::printf("[%+5d]", exp_with_bias);
 			std::printf("(%10lu){%e}:", counter_p[i], ratio_p);
 			for (unsigned i = 0; i < static_cast<unsigned>(ratio_p * num_all_stars); i++) {
 				std::printf("*");
