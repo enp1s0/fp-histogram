@@ -73,7 +73,7 @@ void print_histogram(const std::function<T(const std::size_t)> iter, const std::
 
 	// Draw graph
 	if (min_exp_value < INT_MAX) {
-		std::printf("[  exp ](   count  ){    ratio   }\n");
+		std::printf("[ exp ](   count  ){    ratio   }\n");
 		for (unsigned j = 0; j < counter.size(); j++) {
 			const int i = counter.size() - j - 1;
 			const auto exp_with_bias = min_exp_value + i;
