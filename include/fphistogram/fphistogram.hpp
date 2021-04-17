@@ -155,7 +155,7 @@ void print_histogram_pm(const std::function<T(const std::size_t)> iter, const st
 		for (unsigned i = 0; i < static_cast<unsigned>(max_ratio_m * num_all_stars) + 1; i++) {
 			std::printf(" ");
 		}
-		std::printf("(  -count  ){   -ratio   }[  exp ](  +count  ){   +ratio   }\n");
+		std::printf(" (  -count  ){   -ratio   }[ exp ](  +count  ){   +ratio   }\n");
 		for (unsigned j = 0; j < counter_p.size(); j++) {
 			const int i = counter_p.size() - j - 1;
 			const auto exp_with_bias = min_exp_value + i;
@@ -168,7 +168,7 @@ void print_histogram_pm(const std::function<T(const std::size_t)> iter, const st
 			for (unsigned i = 0; i < static_cast<unsigned>(ratio_m * num_all_stars); i++) {
 				std::printf("*");
 			}
-			std::printf("(%10lu){%e}:", counter_m[i], ratio_m);
+			std::printf(":(%10lu){%e}", counter_m[i], ratio_m);
 			// plus
 			std::printf("[%+5d]", exp_with_bias);
 			std::printf("(%10lu){%e}:", counter_p[i], ratio_p);
