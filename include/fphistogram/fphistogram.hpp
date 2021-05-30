@@ -119,6 +119,7 @@ void print_histogram_pm(const std::function<T(const std::size_t)> iter, const st
 
 	int min_exp_value = INT_MAX;
 	int max_exp_value = INT_MIN;
+#pragma omp parallel for reduction(min: min_exp_value) reduction(max:max_exp_value)
 	for (std::size_t i = 0; i < size; i++) {
 		const auto v = iter(i);
 		const unsigned exp_v = detail::get_exp(v);
@@ -134,6 +135,7 @@ void print_histogram_pm(const std::function<T(const std::size_t)> iter, const st
 	for (auto &v : counter_m) v = 0u;
 
 	std::size_t num_zero = 0u;
+#pragma omp parallel for reduction(+: num_zero)
 	for (unsigned i = 0; i < size; i++) {
 		const auto v = iter(i);
 		const unsigned exp_v = detail::get_exp(v);
@@ -143,9 +145,11 @@ void print_histogram_pm(const std::function<T(const std::size_t)> iter, const st
 		}
 		const auto exp_v_with_bias = detail::log_int<Mode>(static_cast<double>(v));
 		if (v < 0.) {
-			counter_m[exp_v_with_bias - min_exp_value]++;
+#pragma omp critical
+			{counter_m[exp_v_with_bias - min_exp_value]++;}
 		} else {
-			counter_p[exp_v_with_bias - min_exp_value]++;
+#pragma omp critical
+			{counter_p[exp_v_with_bias - min_exp_value]++;}
 		}
 	}
 
