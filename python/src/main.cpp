@@ -41,8 +41,8 @@ void print_histogram_pm(
 PYBIND11_MODULE(fphistogram, m) {
     m.doc() = "fp-histogram for Python";
 
-    m.def("print_histogram_double"   , &print_histogram<double>);
-    m.def("print_histogram_float"    , &print_histogram<float>);
-    m.def("print_histogram_pm_double", &print_histogram_pm<double>);
-    m.def("print_histogram_pm_float" , &print_histogram_pm<float>);
+    m.def("print_histogram"   , &print_histogram<double>);
+    m.def("print_histogram"    , &print_histogram<float>);
+    m.def("print_histogram_pm", &print_histogram_pm<double>);
+    m.def("print_histogram_pm" , &print_histogram_pm<float>);
 }
