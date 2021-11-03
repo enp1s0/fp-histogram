@@ -41,8 +41,8 @@ void print_histogram_pm(
 PYBIND11_MODULE(fphistogram, m) {
     m.doc() = "fp-histogram for Python";
 
-    m.def("print_histogram"   , &print_histogram<double>);
-    m.def("print_histogram"    , &print_histogram<float>);
-    m.def("print_histogram_pm", &print_histogram_pm<double>);
-    m.def("print_histogram_pm" , &print_histogram_pm<float>);
+    m.def("print_histogram"    , &print_histogram<double>   , "print_histogram"   , pybind11::arg("array"), pybind11::arg("num_all_stars") = 100);
+    m.def("print_histogram"    , &print_histogram<float>    , "print_histogram"   , pybind11::arg("array"), pybind11::arg("num_all_stars") = 100);
+    m.def("print_histogram_pm" , &print_histogram_pm<double>, "print_histogram_pm", pybind11::arg("array"), pybind11::arg("num_all_stars") = 100);
+    m.def("print_histogram_pm" , &print_histogram_pm<float> , "print_histogram_pm", pybind11::arg("array"), pybind11::arg("num_all_stars") = 100);
 }
