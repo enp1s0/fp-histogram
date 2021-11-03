@@ -16,7 +16,7 @@ setup(
     version=__version__,
     author="enp1s0",
     author_email="mutsuki@momo86.net",
-    url="https://gitlab.momo86.net/mutsuki/gpu_logger",
+    url="https://github.com/enp1s0/fphistogram",
     description="Print exponent histgram",
     long_description="",
     ext_modules=ext_modules,
