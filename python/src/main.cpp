@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
-#include "../../include/fphistogram/fphistogram.hpp"
+#include <fphistogram/fphistogram.hpp>
 
 template <class T>
 void print_histogram(
